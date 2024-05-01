@@ -1,4 +1,4 @@
-package basics.functions
+package functions
 
 /*
  Standard Library Functions:

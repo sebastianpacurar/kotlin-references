@@ -3,3 +3,4 @@ plugins {
 }
 rootProject.name = "kotlin_references"
 
+include("basics")

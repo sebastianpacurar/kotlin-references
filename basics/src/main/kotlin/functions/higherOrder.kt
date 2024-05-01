@@ -1,4 +1,4 @@
-package basics.functions
+package functions
 
 /*
  High-Order functions - functions that either take functions as params, return functions or do both:
