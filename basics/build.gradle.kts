@@ -20,4 +20,8 @@ dependencies {
 
     // used for serialization/deserialization
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.0")
+
+    // used for reading from/ writing to Word, Excel, PowerPoint files
+    implementation("org.apache.poi:poi-ooxml:5.2.5")
+
 }

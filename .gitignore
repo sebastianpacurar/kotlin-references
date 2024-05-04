@@ -5,3 +5,4 @@ build
 .gradle
 
 /basics/build
+/basics/src/main/kotlin/oop/solid/interfaceSegregation/files/**
