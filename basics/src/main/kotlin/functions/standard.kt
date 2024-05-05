@@ -22,6 +22,7 @@ package functions
   - distinct: returns unique results
   - flatten: flatten a Collection of nested Collection
   - zip: returns a Pair of entries between 2 Collections
+  - zipWithNext: // TODO
   - unzip: //TODO
   - sort: sorts an existing mutable collection. does not return anything
   - sortDescending: similar to sort but in descending order
