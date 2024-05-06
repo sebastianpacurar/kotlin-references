@@ -31,7 +31,7 @@ package functions
 
     +----------+------------------+----------------+---------------------------------------+
     | Function | Object Reference |  Return Value  |         Is Extension Function         |
-    +----------+------------------+----------------+-----------------------+---------------+
+    +----------+------------------+----------------+---------------------------------------+
     |   let    |        it        | lambda result  |                  Yes                  |
     |   run    |       this       | lambda result  |                  Yes                  |
     |   with   |       this       | lambda result  | No: called without the context object |
@@ -39,7 +39,7 @@ package functions
     |   also   |        it        | context object |                  Yes                  |
     +----------+------------------+----------------+---------------------------------------+
 
-* */
+*/
 
 
 // dummy class for examples
