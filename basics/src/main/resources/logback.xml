@@ -1,0 +1,13 @@
+<!--This is mainly used for logging coroutines. Loggers are defined in the 'coroutines' package-->
+
+<configuration>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="info">
+        <appender-ref ref="STDOUT"/>
+    </root>
+</configuration>
