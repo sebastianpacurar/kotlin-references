@@ -36,38 +36,32 @@ fun main() {
 }
 
 
-fun globalLaunch() {
-    val functionName = ::globalLaunch.name
-    runBlocking {
-        logger.info("Start main thread in: $functionName on thread: ${Thread.currentThread().name}")
+fun globalLaunch() = runBlocking {
+    logger.info("Start globalLaunch() on thread: ${Thread.currentThread().name}")
 
-        GlobalScope.launch { // this runs on Thread T1
-            logger.info("Start Global Launch in: $functionName on thread: ${Thread.currentThread().name}")
-            delay(1000)
-            logger.info("End Global Launch in: $functionName on thread: ${Thread.currentThread().name}")
-        }
-
-        delay(2000)
-        logger.info("End main thread in: $functionName on thread: ${Thread.currentThread().name}")
+    GlobalScope.launch { // this runs on Thread T1
+        logger.info("Start Global Launch in: globalLaunch() on thread: ${Thread.currentThread().name}")
+        delay(1000L)
+        logger.info("End Global Launch in: globalLaunch() on thread: ${Thread.currentThread().name}")
     }
+
+    delay(2000L)
+    logger.info("End globalLaunch() on thread: ${Thread.currentThread().name}")
 }
 
 
 // contents of launch will run on the main thread, because launch{} is in the scope of the runBlocking{} coroutine builder
-fun localLaunch() {
-    val functionName = ::localLaunch.name
-    runBlocking {
-        logger.info("Start main thread in: $functionName on thread: ${Thread.currentThread().name}")
+fun localLaunch() = runBlocking {
+    logger.info("Start localLaunch() on thread: ${Thread.currentThread().name}")
 
-        launch { // this runs on the main thread
-            logger.info("Start Local Launch in: $functionName on thread: ${Thread.currentThread().name}")
-            delay(1000) // this suspends the coroutine, meaning that the next statement will execute on the main thread or another thread
-            logger.info("End Local Launch in: $functionName on thread: ${Thread.currentThread().name}")
-        }
-
-        delay(2000)
-        logger.info("End main thread in: $functionName on thread: ${Thread.currentThread().name}")
+    launch { // this runs on the main thread
+        logger.info("Start Local Launch in: localLaunch() on thread: ${Thread.currentThread().name}")
+        delay(1000L) // this suspends the coroutine, meaning that the next statement will execute on the main thread or another thread
+        logger.info("End Local Launch in: localLaunch() on thread: ${Thread.currentThread().name}")
     }
+
+    delay(2000L)
+    logger.info("End localLaunch() on thread: ${Thread.currentThread().name}")
 }
 
 
@@ -75,16 +69,16 @@ fun localLaunch() {
 fun jobObject() {
     val functionName = ::jobObject.name
     runBlocking {
-        logger.info("Start main thread in: $functionName on thread: ${Thread.currentThread().name}")
+        logger.info("Start $functionName on thread: ${Thread.currentThread().name}")
 
         val job: Job = launch {
             logger.info("Start Local Launch in: $functionName on thread: ${Thread.currentThread().name}")
-            delay(1000)
+            delay(1000L)
             logger.info("End Local Launch in: $functionName on thread: ${Thread.currentThread().name}")
         }
 
         job.join()  // wait for the coroutine to finish, without needing an explicit delay()
-        logger.info("End main thread in: $functionName on thread: ${Thread.currentThread().name}")
+        logger.info("End $functionName on thread: ${Thread.currentThread().name}")
     }
 }
 

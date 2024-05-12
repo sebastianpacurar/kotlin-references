@@ -29,37 +29,33 @@ fun main() {
 
 // the application ends when all threads have finished
 // the main thread, and Thread-0 (thread started in the thread{}) run in parallel, concurrently
-fun threadExample() {
-    val functionName = ::threadExample.name
-
+fun threadExample() = runBlocking {
     // called from the scope of the main function
-    logger.info("App starts in function: $functionName on thread: ${Thread.currentThread().name}")
+    logger.info("App starts in function: threadExample() on thread: ${Thread.currentThread().name}")
 
     thread { // creates a background thread
         //  does not block the code of the main thread, running in parallel with the main thread
-        logger.info("Start Process in function: $functionName on thread: ${Thread.currentThread().name}")
+        logger.info("Start Process in function: threadExample() on thread: ${Thread.currentThread().name}")
         Thread.sleep(1000)
-        logger.info("Finish process in function: $functionName on thread: ${Thread.currentThread().name}")
+        logger.info("Finish process in function: threadExample() on thread: ${Thread.currentThread().name}")
     }
 
-    logger.info("App ends in function: $functionName on thread: ${Thread.currentThread().name}")
+    logger.info("End threadExample() on thread: ${Thread.currentThread().name}")
 }
 
 
 // the application does not wait for a coroutine to finish
-fun coroutineExample() {
-    val functionName = ::coroutineExample.name
-
-    logger.info("App starts in function: $functionName on thread: ${Thread.currentThread().name}")
+fun coroutineExample() = runBlocking {
+    logger.info("Start coroutineExample() on thread: ${Thread.currentThread().name}")
 
     GlobalScope.launch { // creates a background coroutine that runs (operates) within a thread
-        logger.info("Start process in function: $functionName on thread: ${Thread.currentThread().name}")
+        logger.info("Start process in function: coroutineExample() on thread: ${Thread.currentThread().name}")
         Thread.sleep(1000)
-        logger.info("Finish process in function: $functionName on thread: ${Thread.currentThread().name}")
+        logger.info("Finish process in function: coroutineExample() on thread: ${Thread.currentThread().name}")
     }
 
     Thread.sleep(2000)  // block the main thread, and wait for the coroutine to finish (an impractical way to wait)
-    logger.info("App ends in function: $functionName on thread: ${Thread.currentThread().name}")
+    logger.info("End coroutineExample() on thread: ${Thread.currentThread().name}")
 }
 
 
@@ -70,23 +66,22 @@ fun coroutineExample() {
     runBlocking() is a coroutine builder which creates a coroutine that blocks the main thread until the coroutine completes its execution
     GlobalScope.launch() is non-blocking
 * */
-fun delayExample() {
-    val functionName = ::coroutineExample.name
+fun delayExample() = runBlocking {
 
-    logger.info("App starts in function: $functionName on thread: ${Thread.currentThread().name}")
+    logger.info("Start delayExample() on thread: ${Thread.currentThread().name}")
 
     GlobalScope.launch {
-        logger.info("Start Process in function: $functionName on thread: ${Thread.currentThread().name}")
-        delay(1000) // coroutine is suspended but Thread is not blocked
-        logger.info("Finish Process in function: $functionName on thread: ${Thread.currentThread().name}")
+        logger.info("Start Process in function: delayExample() on thread: ${Thread.currentThread().name}")
+        delay(1000L) // coroutine is suspended but Thread is not blocked
+        logger.info("Finish Process in function: delayExample() on thread: ${Thread.currentThread().name}")
     }
 
     // using delay outside the runBlocking {} will not work
     runBlocking { // creates a coroutine tha blocks the current main thread
-        delay(2000)
+        delay(2000L)
     }
 
-    logger.info("App ends in function: $functionName on thread: ${Thread.currentThread().name}")
+    logger.info("End delayExample() on thread: ${Thread.currentThread().name}")
 }
 
 
@@ -97,7 +92,7 @@ fun delayExample() {
     (3) runBlocking() launches a new coroutine that blocks the main thread, meaning that this coroutine runs on the main thread
     (4) the first logger.info() statement runs on the main thread, because it lies within the scope of runBlocking method, which is running on the main thread
     (5) GlobalScope.launch() creates a child coroutine in a background thread, meaning that its content starts executing concurrently in the background
-    (6) delay(2000) is present within the scope of runBlocking, meaning it executes in the main thread
+    (6) delay(2000L) is present within the scope of runBlocking, meaning it executes in the main thread
     (7) the last logger.info() statement runs on the main thread
 * */
 fun runBlockingExample() { // (1)
@@ -105,17 +100,17 @@ fun runBlockingExample() { // (1)
 
     runBlocking { // (3)
 
-        logger.info("App starts in function: $functionName on thread: ${Thread.currentThread().name}") // (4)
+        logger.info("Start $functionName on thread: ${Thread.currentThread().name}") // (4)
 
         GlobalScope.launch { // executes on T1 // (5)
             logger.info("Start Process in function: $functionName on thread: ${Thread.currentThread().name}") // T1
-            delay(1000) // coroutine is suspended but T1 is free (not blocked)
+            delay(1000L) // coroutine is suspended but T1 is free (not blocked)
             logger.info("Finish process in function: $functionName on thread: ${Thread.currentThread().name}") // either T1 or some other thread
         }
 
-        delay(2000) // (6)
+        delay(2000L) // (6)
 
-        logger.info("App ends in function: $functionName on thread: ${Thread.currentThread().name}") // (7)
+        logger.info("End $functionName on thread: ${Thread.currentThread().name}") // (7)
     }
 }
 

@@ -1,5 +1,6 @@
 package oop.solid.interfaceSegregation
 
+import Fp
 import org.apache.poi.ss.usermodel.*
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import org.apache.poi.xwpf.usermodel.XWPFDocument
@@ -122,16 +123,21 @@ class FileHandlerImpl : FileHandler {
 }
 
 fun main() {
+    val dir = File(Fp.interfaceSegregationFp)
+
+    if (!dir.exists()) {
+        dir.mkdirs()
+    }
 
     // the same File Handler is responsible for all operations, therefore code is too complex - breaks principle
     val fileHandler: FileHandler = FileHandlerImpl()
 
-    val docPath = "${filesPath}doc_output.docx"
+    val docPath = "${Fp.interfaceSegregationFp}doc_output.docx"
     fileHandler.writeWord(docPath, "Violation of Interface Segregation Principle in Word file.")
     val wordContent = fileHandler.readWord(docPath)
     println("Word content: $wordContent")
 
-    val excelPath = "${filesPath}excel_output.xlsx"
+    val excelPath = "${Fp.interfaceSegregationFp}excel_output.xlsx"
     fileHandler.writeExcel(
         excelPath,
         listOf(listOf("1", "Violation"), listOf("2", "of"), listOf("3", "Interface"), listOf("4", "Segregation"))
@@ -139,7 +145,7 @@ fun main() {
     val excelData = fileHandler.readExcel(excelPath)
     println("Excel content: $excelData")
 
-    val powerPointPath = "${filesPath}ppt_output.pptx"
+    val powerPointPath = "${Fp.interfaceSegregationFp}ppt_output.pptx"
     fileHandler.writePowerPoint(powerPointPath, "Violation of Interface Segregation Principle in PowerPoint file.")
     val powerPointContent = fileHandler.readPowerPoint(powerPointPath)
     println("PowerPoint content: $powerPointContent")

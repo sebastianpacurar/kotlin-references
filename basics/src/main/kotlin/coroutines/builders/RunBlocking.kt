@@ -37,7 +37,7 @@ class MyTest {
 // passing test
 suspend fun passingTest(scope: CoroutineScope): Int {
     val addition: Deferred<Int> = scope.async {
-        delay(1000)
+        delay(1000L)
         2 + 2
     }
     return addition.await()
@@ -47,7 +47,7 @@ suspend fun passingTest(scope: CoroutineScope): Int {
 // failing test
 suspend fun failingTest(scope: CoroutineScope): Int {
     val addition: Deferred<Int> = scope.async {
-        delay(1000)
+        delay(1000L)
         5 + 5
     }
     return addition.await()

@@ -135,18 +135,24 @@ class PowerPointHandlerImpl : PowerPointHandler {
 }
 
 fun main() {
+    val dir = File(Fp.interfaceSegregationFp)
+
+    if (!dir.exists()) {
+        dir.mkdirs()
+    }
+
     val wordHandler: WordHandler = WordHandlerImpl()
     val excelHandler: ExcelHandler = ExcelHandlerImpl()
     val powerPointHandler: PowerPointHandler = PowerPointHandlerImpl()
 
     // Docs related read write operations
-    val docPath = "doc_output.docx"
+    val docPath = "${Fp.interfaceSegregationFp}doc_output.docx"
     wordHandler.writeWord(docPath, "Example of Word content.")
     val wordContent = wordHandler.readWord(docPath)
     println("Word content: $wordContent")
 
     // Excel related read write operations
-    val excelPath = "excel_output.xlsx"
+    val excelPath = "${Fp.interfaceSegregationFp}excel_output.xlsx"
     excelHandler.writeExcel(
         excelPath,
         listOf(listOf("1", "Example"), listOf("2", "of"), listOf("3", "Interface"), listOf("4", "Segregation"))
@@ -155,7 +161,7 @@ fun main() {
     println("Excel content: $excelData")
 
     // PowerPoint related read write operations
-    val powerPointPath = "ppt_output.pptx"
+    val powerPointPath = "${Fp.interfaceSegregationFp}ppt_output.pptx"
     powerPointHandler.writePowerPoint(powerPointPath, "Example of PowerPoint content.")
     val powerPointContent = powerPointHandler.readPowerPoint(powerPointPath)
     println("PowerPoint content: $powerPointContent")

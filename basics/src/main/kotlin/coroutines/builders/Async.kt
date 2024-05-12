@@ -28,67 +28,60 @@ fun main() {
 }
 
 
-fun asyncFunction() {
-    val functionName = ::asyncFunction.name
-    runBlocking {
-        logger.info("Start main thread in: $functionName on thread: ${Thread.currentThread().name}")
+fun asyncFunction() = runBlocking {
+    logger.info("Start asyncFunction() on thread: ${Thread.currentThread().name}")
 
-        val jobDeferredNoReturn: Deferred<Unit> = async {
-            logger.info("Start Deferred<Unit> process in: $functionName on thread: ${Thread.currentThread().name}")
-            delay(1000)
-            logger.info("End Deferred<Unit> process in: $functionName on thread: ${Thread.currentThread().name}")
-        }
-
-        val jobDeferredStringReturn: Deferred<String> = async {
-            logger.info("Start Deferred<String> process in: $functionName on thread: ${Thread.currentThread().name}")
-            delay(1000)
-            logger.info("End Deferred<String> in: $functionName on thread: ${Thread.currentThread().name}")
-            "'My async function string'"
-        }
-
-        jobDeferredNoReturn.join()
-
-        // using await() allows to use the returned value from an async{}
-        val result: String = jobDeferredStringReturn.await()
-        logger.info("Result from await is: $result")
-        logger.info("End main thread in: $functionName on thread: ${Thread.currentThread().name}")
+    val jobDeferredNoReturn: Deferred<Unit> = async {
+        logger.info("Start Deferred<Unit> process in: asyncFunction() on thread: ${Thread.currentThread().name}")
+        delay(1000L)
+        logger.info("End Deferred<Unit> process in: asyncFunction() on thread: ${Thread.currentThread().name}")
     }
+
+    val jobDeferredStringReturn: Deferred<String> = async {
+        logger.info("Start Deferred<String> process in: asyncFunction() on thread: ${Thread.currentThread().name}")
+        delay(1000L)
+        logger.info("End Deferred<String> in: asyncFunction() on thread: ${Thread.currentThread().name}")
+        "'My async function string'"
+    }
+
+    jobDeferredNoReturn.join()
+
+    // using await() allows to use the returned value from an async{}
+    val result: String = jobDeferredStringReturn.await()
+    logger.info("Result from await is: $result")
+    logger.info("End asyncFunction() on thread: ${Thread.currentThread().name}")
 }
 
 
-fun awaitAllExample() {
-    val functionName = ::awaitAllExample.name
-    runBlocking {
-        logger.info("Start main thread in: $functionName on thread: ${Thread.currentThread().name}")
+fun awaitAllExample() = runBlocking {
+    logger.info("Start awaitAllExample() on thread: ${Thread.currentThread().name}")
 
-        // create a list to hold Deferred<String> objects
-        val deferredResults = mutableListOf<Deferred<String>>()
+    // create a list to hold Deferred<String> objects
+    val deferredResults = mutableListOf<Deferred<String>>()
 
-        // launch five coroutines asynchronously
-        for (i in 1..5) {
-            val deferredResult: Deferred<String> = async {
-                logger.info("Start coroutine $i in: $functionName on thread: ${Thread.currentThread().name}")
-                delay(1000)
-                logger.info("End coroutine $i in: $functionName on thread: ${Thread.currentThread().name}")
-                "Result from coroutine $i" // return a result
-            }
-            deferredResults.add(deferredResult) // add the Deferred object to the list
+    // launch five coroutines asynchronously
+    for (i in 1..5) {
+        val deferredResult: Deferred<String> = async {
+            logger.info("Start coroutine $i in: awaitAllExample() on thread: ${Thread.currentThread().name}")
+            delay(1000L)
+            logger.info("End coroutine $i in: awaitAllExample() on thread: ${Thread.currentThread().name}")
+            "Result from coroutine $i" // return a result
         }
-
-        // Wait for all coroutines to complete and collect their results
-        val allResults = measureTimeMillis {
-
-            // using awaitAll() to wait for all coroutines to finish
-            val results = deferredResults.awaitAll()
-
-            results.forEachIndexed { index, result ->
-                // Print each result along with its index
-                logger.info("Result $index: $result")
-            }
-        }
-        logger.info("All coroutines completed in $allResults ms")
-        logger.info("End main thread in: $functionName on thread: ${Thread.currentThread().name}")
+        deferredResults.add(deferredResult) // add the Deferred object to the list
     }
+
+    // Wait for all coroutines to complete and collect their results
+    val allResults = measureTimeMillis {
+
+        // using awaitAll() to wait for all coroutines to finish
+        val results = deferredResults.awaitAll()
+
+        results.forEachIndexed { index, result ->
+            // Print each result along with its index
+            logger.info("Result $index: $result")
+        }
+    }
+    logger.info("All coroutines completed in $allResults ms")
 }
 
 
