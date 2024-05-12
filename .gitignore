@@ -7,3 +7,5 @@ build
 /basics/build
 /basics/src/main/kotlin/oop/solid/interfaceSegregation/files/**
 /basics/src/main/kotlin/coroutines/cooperation/files/**
+
+/androidReferences/build

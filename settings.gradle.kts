@@ -1,6 +1,12 @@
-plugins {
-    id("org.gradle.toolchains.foojay-resolver-convention") version "0.5.0"
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
 }
+
 rootProject.name = "kotlin_references"
 
-include("basics")
+include(":basics")
+include(":androidReferences")
