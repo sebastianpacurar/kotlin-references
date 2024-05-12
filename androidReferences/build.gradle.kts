@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
+    id("kotlin-kapt")
 }
 
 repositories {
@@ -67,5 +68,40 @@ dependencies {
     androidTestImplementation(libs.ui.test.junit4)
     debugImplementation(libs.ui.tooling)
     debugImplementation(libs.ui.test.manifest)
+
+    //Room
+    implementation(libs.androidx.room.ktx)
+    kapt(libs.androidx.room.compiler) //TODO: move to KSP
+
+    // Navigation
+    implementation(libs.androidx.navigation.compose)
+
+    // Extended Icons
+    implementation(libs.androidx.material.icons.extended)
+    implementation(libs.androidx.lifecycle.runtime.compose)
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

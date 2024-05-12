@@ -3,18 +3,18 @@ package com.example.androidReferences
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.sp
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.androidReferences.ui.theme.AndroidReferencesTheme
+import com.example.androidReferences.loginApp.ui.Screen
+import com.example.androidReferences.loginApp.ui.home.HomeScreen
+import com.example.androidReferences.loginApp.ui.login.LoginScreen
+import com.example.androidReferences.loginApp.ui.login.LoginViewModelImpl
+import com.example.androidReferences.loginApp.ui.register.RegisterScreen
+import com.example.androidReferences.loginApp.ui.register.RegisterViewModelImpl
 
 
 class MainActivity : ComponentActivity() {
@@ -22,26 +22,36 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             AndroidReferencesTheme {
-                Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-                    Test()
+                val navController = rememberNavController()
+                NavHost(navController = navController, startDestination = "login") {
+                    composable(route = Screen.Login.route) {
+                        LoginScreen(
+                            vm = LoginViewModelImpl(),
+                            navController = navController
+                        )
+                    }
+
+                    composable(Screen.Register.route) {
+                        RegisterScreen(
+                            vm = RegisterViewModelImpl(),
+                            navController = navController
+                        )
+                    }
+
+                    composable(route = "${Screen.Home.route}/{loggedUser}", arguments = listOf(
+                        navArgument(name = "loggedUser") {
+                            type = NavType.StringType
+                        }
+                    )) { backStackEntry ->
+                        val argVal = backStackEntry.arguments?.getString("loggedUser") ?: "None"
+                        HomeScreen(
+                            navController = navController,
+                            loggedUser = argVal
+                        )
+                    }
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Test() {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Text(
-            text = "Hello Android References!",
-            fontWeight = FontWeight.Bold,
-            fontSize = 32.sp
-        )
     }
 }
 
