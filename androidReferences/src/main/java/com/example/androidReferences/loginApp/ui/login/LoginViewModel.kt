@@ -4,10 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.androidReferences.loginApp.LoginGraph
 import com.example.androidReferences.loginApp.ui.repository.Repository
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 
@@ -21,6 +18,7 @@ interface LoginViewModel {
     fun resetFields()
 }
 
+
 class LoginViewModelImpl(
     private val repository: Repository = LoginGraph.repository
 ) : LoginViewModel, ViewModel() {
@@ -33,7 +31,6 @@ class LoginViewModelImpl(
     override val pass: StateFlow<String>
         get() = _pass.asStateFlow()
 
-
     override fun setUser(value: String) {
         _user.value = value
     }
@@ -44,10 +41,14 @@ class LoginViewModelImpl(
 
     override fun login(user: String, password: String, callback: (Boolean) -> Unit) {
         viewModelScope.launch {
-            val userFlow = repository.getUser(user, password)
-            val res = userFlow.firstOrNull()
-            // True if the user exists in the db
-            callback(res != null)
+            var success = false
+            if (user.isNotBlank() && password.count() >= 2) {
+                if (repository.getUser(user, password).firstOrNull() != null) {
+                    repository.setLogStatus(user, true)
+                    success = true
+                }
+            }
+            callback(success)
         }
     }
 

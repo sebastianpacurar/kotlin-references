@@ -1,6 +1,11 @@
 package com.example.androidReferences.loginApp.ui.register
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Password
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.outlined.Password
+import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -12,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.androidReferences.loginApp.ui.Screen
+import com.example.androidReferences.loginApp.ui.components.CustomTextBox
 import kotlinx.coroutines.launch
 
 
@@ -52,28 +58,23 @@ fun RegisterScreen(
                 }
             }
 
-            OutlinedTextField(
+            CustomTextBox(
+                leadingIcon = listOf(Icons.Filled.Person, Icons.Outlined.Person),
                 value = userName.value,
                 onValueChange = vm::setUser,
-                label = {
-                    Text(text = "Username")
-                },
-                placeholder = {
-                    Text(text = "Insert user name")
-                }
+                label = "Username",
+                placeholder = "Register name",
             )
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            OutlinedTextField(
+            CustomTextBox(
+                leadingIcon = listOf(Icons.Filled.Password, Icons.Outlined.Password),
                 value = pass.value,
                 onValueChange = vm::setPass,
-                label = {
-                    Text(text = "Password")
-                },
-                placeholder = {
-                    Text(text = "Insert user pass")
-                }
+                label = "Password",
+                placeholder = "Register password",
+                isPassword = true
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -82,15 +83,14 @@ fun RegisterScreen(
                 keyboardController?.hide()
                 vm.register(userName.value, pass.value) { success ->
                     if (success) {
-                        navController.popBackStack() // force back to Login Screen
-                        //TODO: navArgs are broken
-
-                        navController.navigate("${Screen.Home.route}/loggedUser=${userName.value}")
+                        navController.popBackStack() // force back to the Login Screen
+                        navController.navigate("${Screen.Home.route}/${userName.value}")
+                        vm.resetFields()
                     } else {
                         // display snackbar
                         scope.launch {
                             snackbarHostState.showSnackbar(
-                                message = "${userName.value} already exists",
+                                message = "Cannot register user ${userName.value}",
                                 withDismissAction = true,
                                 duration = SnackbarDuration.Short
                             )

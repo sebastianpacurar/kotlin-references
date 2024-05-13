@@ -39,16 +39,15 @@ class RegisterViewModelImpl(
     override fun register(user: String, pass: String, callback: (Boolean) -> Unit) {
         // bound to the lifecycle of RegisterViewModel
         viewModelScope.launch { // by default, dispatched to a background thread or thread pool (not the main thread) for execution
-            // runs asynchronously - insert a user in the db
-            val existingUser = repository.getUser(user, pass).firstOrNull()
-            if (existingUser == null) { // if user does not exist
-                // If user does not exist, insert the new user, and set callback to true
-                repository.insert(User(0, user, pass))
-                callback(true)
-            } else { // if user exists
-                // if user exists throw False
-                callback(false)
+            var success = false
+            if (user.isNotBlank()) {
+                if (repository.getUser(user, pass).firstOrNull() == null) {
+                    repository.insert(User(0, user, pass)) //TODO: treat isAdmin differently
+                    repository.setLogStatus(user, true)
+                    success = true
+                }
             }
+            callback(success)
         }
     }
 

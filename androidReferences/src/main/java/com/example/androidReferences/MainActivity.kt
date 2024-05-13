@@ -11,6 +11,7 @@ import androidx.navigation.navArgument
 import com.example.androidReferences.ui.theme.AndroidReferencesTheme
 import com.example.androidReferences.loginApp.ui.Screen
 import com.example.androidReferences.loginApp.ui.home.HomeScreen
+import com.example.androidReferences.loginApp.ui.home.HomeViewModelImpl
 import com.example.androidReferences.loginApp.ui.login.LoginScreen
 import com.example.androidReferences.loginApp.ui.login.LoginViewModelImpl
 import com.example.androidReferences.loginApp.ui.register.RegisterScreen
@@ -43,10 +44,11 @@ class MainActivity : ComponentActivity() {
                             type = NavType.StringType
                         }
                     )) { backStackEntry ->
-                        val argVal = backStackEntry.arguments?.getString("loggedUser") ?: "None"
+                        val loggedUserParam = backStackEntry.arguments?.getString("loggedUser") ?: "None"
                         HomeScreen(
+                            vm = HomeViewModelImpl(),
                             navController = navController,
-                            loggedUser = argVal
+                            loggedUser = loggedUserParam
                         )
                     }
                 }
