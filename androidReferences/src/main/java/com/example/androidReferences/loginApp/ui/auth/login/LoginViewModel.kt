@@ -1,4 +1,4 @@
-package com.example.androidReferences.loginApp.ui.login
+package com.example.androidReferences.loginApp.ui.auth.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

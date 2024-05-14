@@ -1,10 +1,10 @@
-package com.example.androidReferences.loginApp.ui.login
+package com.example.androidReferences.loginApp.ui.auth.login
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Password
+import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.outlined.Password
+import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -20,7 +20,7 @@ import kotlinx.coroutines.launch
 
 
 @Composable
-fun LoginScreen(
+fun LoginTab(
     vm: LoginViewModel,
     navController: NavController
 ) {
@@ -39,26 +39,13 @@ fun LoginScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = padding.calculateTopPadding(), vertical = 20.dp),
+                .padding(top = padding.calculateTopPadding() + 35.dp),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
-
         ) {
-            Row(
-                verticalAlignment = Alignment.Top
-            ) {
-                Button(
-                    onClick = {
-                        navController.navigate(Screen.Register.route)
-                        vm.resetFields()
-                    }
-                ) {
-                    Text(text = "Go To Register")
-                }
-            }
-
             CustomTextBox(
-                leadingIcon = listOf(Icons.Filled.Person, Icons.Outlined.Person),
+                selectedIcon = Icons.Filled.Person,
+                unselectedIcon = Icons.Outlined.Person,
                 value = userName.value,
                 onValueChange = vm::setUser,
                 label = "Username",
@@ -68,34 +55,36 @@ fun LoginScreen(
             Spacer(modifier = Modifier.height(16.dp))
 
             CustomTextBox(
-                leadingIcon = listOf(Icons.Filled.Password, Icons.Outlined.Password),
+                selectedIcon = Icons.Filled.Lock,
+                unselectedIcon = Icons.Outlined.Lock,
                 value = pass.value,
                 onValueChange = vm::setPass,
                 label = "Password",
                 placeholder = "Insert user password",
-                isPassword = true
+                isPassword = true,
             )
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            Button(onClick = {
-                keyboardController?.hide()
-                vm.login(userName.value, pass.value) { success ->
-                    if (success) {
-                        navController.navigate("${Screen.Home.route}/${userName.value}")
-                        vm.resetFields()
-                    } else {
-                        // display snackbar
-                        scope.launch {
-                            snackbarHostState.showSnackbar(
-                                message = "Username or password invalid",
-                                withDismissAction = true,
-                                duration = SnackbarDuration.Short
-                            )
+            OutlinedButton(
+                onClick = {
+                    keyboardController?.hide()
+                    vm.login(userName.value, pass.value) { success ->
+                        if (success) {
+                            navController.navigate("${Screen.Home.route}/${userName.value}")
+                            vm.resetFields()
+                        } else {
+                            // display snackbar
+                            scope.launch {
+                                snackbarHostState.showSnackbar(
+                                    message = "Username or password invalid",
+                                    withDismissAction = true,
+                                    duration = SnackbarDuration.Short
+                                )
+                            }
                         }
                     }
-                }
-            }) {
+                }) {
                 Text(text = "Login")
             }
         }

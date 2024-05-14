@@ -18,8 +18,18 @@ data class User(
     val password: String,
 
     @ColumnInfo(name = "is_logged")
-    val isLogged: Boolean = false,
+    val isOnline: Boolean = false,
 
     @ColumnInfo(name = "is_admin")
-    val isAdmin: Boolean = false
+    val isAdmin: Boolean = false,
+
+    @ColumnInfo(name = "user_address")
+    val address: String,
+
+    @ColumnInfo(name = "user_number")
+    val number: String,
+
+    @ColumnInfo(name = "user_continent")
+    val continent: String
+
 )

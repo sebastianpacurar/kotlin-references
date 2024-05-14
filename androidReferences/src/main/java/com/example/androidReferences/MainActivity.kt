@@ -10,12 +10,9 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.androidReferences.ui.theme.AndroidReferencesTheme
 import com.example.androidReferences.loginApp.ui.Screen
+import com.example.androidReferences.loginApp.ui.auth.AuthTabs
 import com.example.androidReferences.loginApp.ui.home.HomeScreen
 import com.example.androidReferences.loginApp.ui.home.HomeViewModelImpl
-import com.example.androidReferences.loginApp.ui.login.LoginScreen
-import com.example.androidReferences.loginApp.ui.login.LoginViewModelImpl
-import com.example.androidReferences.loginApp.ui.register.RegisterScreen
-import com.example.androidReferences.loginApp.ui.register.RegisterViewModelImpl
 
 
 class MainActivity : ComponentActivity() {
@@ -24,19 +21,10 @@ class MainActivity : ComponentActivity() {
         setContent {
             AndroidReferencesTheme {
                 val navController = rememberNavController()
-                NavHost(navController = navController, startDestination = "login") {
-                    composable(route = Screen.Login.route) {
-                        LoginScreen(
-                            vm = LoginViewModelImpl(),
-                            navController = navController
-                        )
-                    }
 
-                    composable(Screen.Register.route) {
-                        RegisterScreen(
-                            vm = RegisterViewModelImpl(),
-                            navController = navController
-                        )
+                NavHost(navController = navController, startDestination = Screen.Auth.route) {
+                    composable(route = Screen.Auth.route) {
+                        AuthTabs(navController = navController)
                     }
 
                     composable(route = "${Screen.Home.route}/{loggedUser}", arguments = listOf(

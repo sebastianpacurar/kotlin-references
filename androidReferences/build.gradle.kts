@@ -69,7 +69,7 @@ dependencies {
     debugImplementation(libs.ui.tooling)
     debugImplementation(libs.ui.test.manifest)
 
-    //Room
+    // Room
     implementation(libs.androidx.room.ktx)
     kapt(libs.androidx.room.compiler) //TODO: move to KSP
 
@@ -79,7 +79,12 @@ dependencies {
     // Extended Icons
     implementation(libs.androidx.material.icons.extended)
     implementation(libs.androidx.lifecycle.runtime.compose)
+
+    // generate mock data
+    implementation(libs.kotlin.faker)
 }
+
+// Used for generating fake data
 
 
 
