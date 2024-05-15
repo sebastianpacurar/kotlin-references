@@ -82,9 +82,15 @@ dependencies {
 
     // generate mock data
     implementation(libs.kotlin.faker)
-}
 
-// Used for generating fake data
+    // Arrow
+    implementation(libs.arrow.core)
+    implementation(libs.arrow.fx.coroutines)
+
+    // Retrofit
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+}
 
 
 
