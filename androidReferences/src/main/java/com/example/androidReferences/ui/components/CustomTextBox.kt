@@ -1,17 +1,22 @@
-package com.example.androidReferences.apps.loginApp.ui.components
+package com.example.androidReferences.ui.components
 
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Key
 import androidx.compose.material.icons.filled.KeyOff
+import androidx.compose.material.icons.rounded.KeyboardArrowDown
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.unit.dp
 
 
 @Composable
@@ -21,11 +26,12 @@ fun CustomTextBox(
     onValueChange: (String) -> Unit,
     selectedIcon: ImageVector,
     unselectedIcon: ImageVector,
-    label: String,
-    placeholder: String,
+    label: String? = null,
+    placeholder: String? = null,
     isPassword: Boolean = false,
     isOutline: Boolean = true,
     readOnly: Boolean = false,
+    keyboardType: KeyboardType = KeyboardType.Text
 ) {
 
     // instruct textfield to track focus state
@@ -42,12 +48,21 @@ fun CustomTextBox(
             value = value,
             onValueChange = onValueChange,
             singleLine = true,
-            leadingIcon = { LeadingIcon(isFocused, label, selectedIcon, unselectedIcon) },
+            leadingIcon = { LeadingIcon(isFocused, selectedIcon, unselectedIcon) },
             trailingIcon = { PasswordTrailingIcon(isFocused, isPassword, passVisibility) },
             visualTransformation = textTransformation(isPassword, passVisibility),
-            label = { Text(text = label) },
-            placeholder = { Text(text = placeholder) },
-            readOnly = readOnly
+            label = {
+                if (label != null) {
+                    Text(text = label)
+                }
+            },
+            placeholder = {
+                if (placeholder != null) {
+                    Text(text = placeholder)
+                }
+            },
+            readOnly = readOnly,
+            keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
         )
     } else {
         TextField(
@@ -56,12 +71,21 @@ fun CustomTextBox(
             value = value,
             onValueChange = onValueChange,
             singleLine = true,
-            leadingIcon = { LeadingIcon(isFocused, label, selectedIcon, unselectedIcon) },
+            leadingIcon = { LeadingIcon(isFocused, selectedIcon, unselectedIcon) },
             trailingIcon = { PasswordTrailingIcon(isFocused, isPassword, passVisibility) },
             visualTransformation = textTransformation(isPassword, passVisibility),
-            label = { Text(text = label) },
-            placeholder = { Text(text = placeholder) },
-            readOnly = readOnly
+            label = {
+                if (label != null) {
+                    Text(text = label)
+                }
+            },
+            placeholder = {
+                if (placeholder != null) {
+                    Text(text = placeholder)
+                }
+            },
+            readOnly = readOnly,
+            keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
         )
     }
 }
@@ -69,15 +93,14 @@ fun CustomTextBox(
 
 // dynamic upon focus/unfocus (color)
 @Composable
-private fun LeadingIcon(
+fun LeadingIcon(
     isFocused: Boolean,
-    label: String,
     selectedIcon: ImageVector,
     unselectedIcon: ImageVector,
 ) {
     Icon(
         imageVector = if (isFocused) selectedIcon else unselectedIcon,
-        contentDescription = label,
+        contentDescription = "leading icon",
         tint = if (isFocused) MaterialTheme.colorScheme.primary else Color.Gray
     )
 }

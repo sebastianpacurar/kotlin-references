@@ -48,7 +48,7 @@ class MainActivity : ComponentActivity() {
                     floatingActionButton = {
                         if (currentRoute != Screen.Parent.route) {
                             FloatingActionButton(
-                                onClick = { navController.popBackStack() },
+                                onClick = { navController.popBackStack(route = Screen.Parent.route, inclusive = false) },
                                 content = {
                                     Icon(
                                         imageVector = Icons.AutoMirrored.Filled.ArrowBack,

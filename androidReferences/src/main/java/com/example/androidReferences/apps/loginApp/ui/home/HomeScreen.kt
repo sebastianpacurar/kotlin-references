@@ -56,6 +56,7 @@ fun HomeScreen(
                     isAdmin = users.value[i].isAdmin.toString(),
                     address = users.value[i].address,
                     number = users.value[i].number,
+                    continent = users.value[i].continent
                 )
             }
         }

@@ -17,6 +17,7 @@ fun UserCard(
     isAdmin: String,
     address: String,
     number: String,
+    continent: String,
 ) {
     Card(
         modifier = Modifier
@@ -52,6 +53,12 @@ fun UserCard(
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = "Number: $number",
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = "Continent: $continent",
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold
             )

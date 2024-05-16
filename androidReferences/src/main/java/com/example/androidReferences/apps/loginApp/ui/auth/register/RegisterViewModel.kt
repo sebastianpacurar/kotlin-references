@@ -2,6 +2,7 @@ package com.example.androidReferences.apps.loginApp.ui.auth.register
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.androidReferences.Constant.continents
 import com.example.androidReferences.ReferenceApp
 import com.example.androidReferences.apps.loginApp.data.models.User
 import com.example.androidReferences.apps.loginApp.ui.repository.UsersRepository
@@ -121,5 +122,6 @@ class RegisterViewModelImpl: RegisterViewModel, ViewModel() {
         _pass.value = ""
         _address.value = ""
         _number.value = ""
+        _continent.value = continents.first()
     }
 }

@@ -15,7 +15,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.navigation.NavController
 import com.example.androidReferences.Screen
-import com.example.androidReferences.apps.loginApp.ui.components.CustomTextBox
+import com.example.androidReferences.ui.components.CustomTextBox
 import kotlinx.coroutines.launch
 
 
@@ -43,6 +43,7 @@ fun LoginTab(
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+
             CustomTextBox(
                 selectedIcon = Icons.Filled.Person,
                 unselectedIcon = Icons.Outlined.Person,

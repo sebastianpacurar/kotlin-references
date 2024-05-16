@@ -9,12 +9,15 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import com.example.androidReferences.Constant.continents
 import com.example.androidReferences.Screen
-import com.example.androidReferences.apps.loginApp.ui.components.CustomTextBox
-import com.example.androidReferences.apps.loginApp.ui.components.Dropdown
+import com.example.androidReferences.ui.components.AutoSuggestionBox
+import com.example.androidReferences.ui.components.CustomTextBox
+import com.example.androidReferences.ui.components.Dropdown
 import kotlinx.coroutines.launch
 
 
@@ -27,25 +30,28 @@ fun RegisterTab(
     val userName = vm.user.collectAsStateWithLifecycle()
     val pass = vm.pass.collectAsStateWithLifecycle()
     val address = vm.address.collectAsStateWithLifecycle()
-    val continent = vm.continent.collectAsStateWithLifecycle() // TODO: this one's not working
+    val continent = vm.continent.collectAsStateWithLifecycle()
     val number = vm.number.collectAsStateWithLifecycle()
+
+    vm.setContinent(continents.first())
 
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
-
 
     Scaffold(
         snackbarHost = {
             SnackbarHost(hostState = snackbarHostState)
         }
-    ) { padding ->
+    ) { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = padding.calculateTopPadding() + 35.dp),
+                .padding(top = paddingValues.calculateTopPadding() + 35.dp),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+
+            AutoSuggestionBox(onValueChange = vm::setUser) //TODO just for testing purposes
 
             CustomTextBox(
                 label = "Username",
@@ -54,9 +60,10 @@ fun RegisterTab(
                 selectedIcon = Icons.Filled.Person,
                 unselectedIcon = Icons.Outlined.Person,
                 placeholder = "Register name",
+                modifier = Modifier.padding(paddingValues)
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
             CustomTextBox(
                 label = "Password",
@@ -65,9 +72,10 @@ fun RegisterTab(
                 selectedIcon = Icons.Filled.Lock,
                 unselectedIcon = Icons.Outlined.Lock,
                 placeholder = "Register password",
-                isPassword = true
+                isPassword = true,
+                modifier = Modifier.padding(paddingValues)
             )
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
             CustomTextBox(
                 label = "Address",
@@ -75,10 +83,10 @@ fun RegisterTab(
                 onValueChange = vm::setAddress,
                 selectedIcon = Icons.Filled.House,
                 unselectedIcon = Icons.Outlined.House,
-                placeholder = "Type address",
+                placeholder = "Type address"
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
             CustomTextBox(
                 label = "Number",
@@ -86,17 +94,17 @@ fun RegisterTab(
                 onValueChange = vm::setNumber,
                 selectedIcon = Icons.Filled.Numbers,
                 unselectedIcon = Icons.Outlined.Numbers,
-                placeholder = "Type Number",
+                keyboardType = KeyboardType.Number,
+                placeholder = "Type Number"
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(8.dp))
 
             Dropdown(
                 label = "Continent",
                 onValueChange = vm::setContinent,
                 selectedIcon = Icons.Filled.AddLocationAlt,
                 unselectedIcon = Icons.Outlined.AddLocationAlt,
-                placeholder = "Pick a Continent",
                 options = continents,
             )
 
@@ -104,7 +112,6 @@ fun RegisterTab(
             Spacer(modifier = Modifier.height(16.dp))
 
             Row(
-                horizontalArrangement = Arrangement.Absolute.Left,
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 OutlinedIconButton(onClick = {
@@ -147,14 +154,3 @@ fun RegisterTab(
         }
     }
 }
-
-
-val continents = listOf(
-    "Asia",
-    "Europe",
-    "Africa",
-    "North America",
-    "South America",
-    "Australia",
-    "Antarctica"
-)
