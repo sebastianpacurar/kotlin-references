@@ -15,7 +15,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.androidReferences.Constant.continents
 import com.example.androidReferences.Screen
-import com.example.androidReferences.ui.components.AutoSuggestionBox
+import com.example.androidReferences.ui.components.SuggestionBox
 import com.example.androidReferences.ui.components.CustomTextBox
 import com.example.androidReferences.ui.components.Dropdown
 import kotlinx.coroutines.launch
@@ -51,7 +51,12 @@ fun RegisterTab(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            AutoSuggestionBox(onValueChange = vm::setUser) //TODO just for testing purposes
+            SuggestionBox(
+                modifier = Modifier.padding(paddingValues),
+                onValueChange = vm::setCountry,
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
 
             CustomTextBox(
                 label = "Username",
@@ -146,7 +151,6 @@ fun RegisterTab(
                             }
                         }
                     }
-
                 }) {
                     Text(text = "Register")
                 }

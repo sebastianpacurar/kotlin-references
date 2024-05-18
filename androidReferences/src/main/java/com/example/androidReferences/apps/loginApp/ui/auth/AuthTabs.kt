@@ -47,12 +47,8 @@ fun AuthTabs(
         ),
     )
 
-    var selectedTabIndex by rememberSaveable {
-        mutableIntStateOf(0)
-    }
-    val pagerState = rememberPagerState {
-        tabItems.size
-    }
+    var selectedTabIndex by rememberSaveable { mutableIntStateOf(0) }
+    val pagerState = rememberPagerState { tabItems.size }
 
     /*
       swipe:
@@ -77,7 +73,7 @@ fun AuthTabs(
     }
 
     Column(
-        modifier = modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize()
     ) {
 
         TabRow(selectedTabIndex = selectedTabIndex) {

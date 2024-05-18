@@ -19,6 +19,7 @@ interface RegisterViewModel {
     val pass: StateFlow<String>
     val address: StateFlow<String>
     val number: StateFlow<String>
+    val country: StateFlow<String>
     val continent: StateFlow<String>
     val repo: UsersRepository
 
@@ -35,13 +36,14 @@ interface RegisterViewModel {
     fun setPass(value: String)
     fun setAddress(value: String)
     fun setNumber(value: String)
+    fun setCountry(value: String)
     fun setContinent(value: String)
     fun setRandomData()
     fun resetFields()
 }
 
 
-class RegisterViewModelImpl: RegisterViewModel, ViewModel() {
+class RegisterViewModelImpl : RegisterViewModel, ViewModel() {
     override val repo = ReferenceApp.loginApp.repository
 
     private val _user = MutableStateFlow("")
@@ -55,6 +57,9 @@ class RegisterViewModelImpl: RegisterViewModel, ViewModel() {
 
     private val _continent = MutableStateFlow("")
     override val continent: StateFlow<String> = _continent.asStateFlow()
+
+    private val _country = MutableStateFlow("")
+    override val country: StateFlow<String> = _country.asStateFlow()
 
     private val _number = MutableStateFlow("")
     override val number: StateFlow<String> = _number.asStateFlow()
@@ -102,19 +107,23 @@ class RegisterViewModelImpl: RegisterViewModel, ViewModel() {
         _address.value = value
     }
 
-    override fun setRandomData() {
-        _address.value = Faker().address.streetName()
-        _number.value = Faker().address.buildingNumber()
-        _user.value = Faker().name.firstName()
-        _pass.value = Faker().name.lastName()
+    override fun setCountry(value: String) {
+        _country.value = value
+    }
+
+    override fun setNumber(value: String) {
+        _number.value = value
     }
 
     override fun setContinent(value: String) {
         _continent.value = value
     }
 
-    override fun setNumber(value: String) {
-        _number.value = value
+    override fun setRandomData() {
+        _address.value = Faker().address.streetName()
+        _number.value = Faker().address.buildingNumber()
+        _user.value = Faker().name.firstName()
+        _pass.value = Faker().name.lastName()
     }
 
     override fun resetFields() {
