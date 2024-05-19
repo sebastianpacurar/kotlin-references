@@ -2,12 +2,10 @@ package com.example.androidReferences.ui.components
 
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Key
 import androidx.compose.material.icons.filled.KeyOff
-import androidx.compose.material.icons.rounded.KeyboardArrowDown
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -16,7 +14,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.unit.dp
+import com.example.androidReferences.ui.components.utils.LeadingIcon
 
 
 @Composable
@@ -88,21 +86,6 @@ fun CustomTextBox(
             keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
         )
     }
-}
-
-
-// dynamic upon focus/unfocus (color)
-@Composable
-fun LeadingIcon(
-    isFocused: Boolean,
-    selectedIcon: ImageVector,
-    unselectedIcon: ImageVector,
-) {
-    Icon(
-        imageVector = if (isFocused) selectedIcon else unselectedIcon,
-        contentDescription = "leading icon",
-        tint = if (isFocused) MaterialTheme.colorScheme.primary else Color.Gray
-    )
 }
 
 

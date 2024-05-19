@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.androidReferences.Constant.continents
+import com.example.androidReferences.Constant.countries
 import com.example.androidReferences.Screen
 import com.example.androidReferences.ui.components.SuggestionBox
 import com.example.androidReferences.ui.components.CustomTextBox
@@ -52,8 +53,11 @@ fun RegisterTab(
         ) {
 
             SuggestionBox(
+                options = countries,
                 modifier = Modifier.padding(paddingValues),
                 onValueChange = vm::setCountry,
+                selectedIcon = Icons.Filled.Flag,
+                unselectedIcon = Icons.Outlined.Flag
             )
 
             Spacer(modifier = Modifier.height(16.dp))
